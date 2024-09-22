@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            letter-spacing: 1.5px;
+        }
+
+        #quote-box {
+            margin: 30px 0;
+        }
+
+        #quote {
+            font-size: 1.8em;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        #author {
+            font-size: 1.3em;
+            color: #555;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            #quote {
+                font-size: 1.4em;
+            }
+
+            #author {
+                font-size: 1.1em;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Quote Generator</h1>
+        <div id="quote-box">
+            <p id="quote">Click the button to get inspired!</p>
+            <p id="author"></p>
+        </div>
+        <button id="new-quote">New Quote</button>
+    </div>
+
+    <script>
+        const quotes = [
+            {quote: "The greatest glory in living lies not in never falling, but in rising every time we fall.", author: "Nelson Mandela"},
+            {quote: "The way to get started is to quit talking and begin doing.", author: "Walt Disney"},
+            {quote: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs"},
+            {quote: "If life were predictable it would cease to be life, and be without flavor.", author: "Eleanor Roosevelt"},
+            {quote: "If you look at what you have in life, you'll always have more.", author: "Oprah Winfrey"},
+            {quote: "We cannot solve problems with the kind of thinking we employed when we came up with them.", author: "Albert Einstein"},
+            {quote: "Learn as if you will live forever, live like you will die tomorrow.", author: "Mahatma Gandhi"},
+            {quote: "Stay away from those people who try to disparage your ambitions. Small minds will always do that, but great minds will give you a feeling that you can become great too.", author: "Mark Twain"},
+            {quote: "When you give joy to other people, you get more joy in return.", author: "Eleanor Roosevelt"},
+            {quote: "When you change your thoughts, remember to also change your world.", author: "Norman Vincent Peale"},
+            {quote: "It is only when we take chances that our lives improve. The initial and the most difficult risk we need to take is to become honest.", author: "Walter Anderson"},
+            {quote: "Nature has given us all the pieces required to achieve exceptional wellness and health, but has left it to us to put these pieces together.", author: "Diane McLaren"},
+            {quote: "Success is not final; failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill"},
+            {quote: "It is better to fail in originality than to succeed in imitation.", author: "Herman Melville"},
+            {quote: "The road to success and the road to failure are almost exactly the same.", author: "Colin R. Davis"},
+            {quote: "Success usually comes to those who are too busy to be looking for it.", author: "Henry David Thoreau"},
+            {quote: "Develop success from failures. Discouragement and failure are two of the surest stepping stones to success.", author: "Dale Carnegie"},
+            {quote: "Nothing in the world can take the place of persistence.", author: "Calvin Coolidge"},
+            {quote: "There are three ways to ultimate success: The first way is to be kind. The second way is to be kind. The third way is to be kind.", author: "Mister Rogers"},
+            {quote: "Success is peace of mind, which is a direct result of self-satisfaction in knowing you made the effort to become the best of which you are capable.", author: "John Wooden"},
+            {quote: "I never dreamed about success. I worked for it.", author: "Estée Lauder"},
+            {quote: "Success is getting what you want; happiness is wanting what you get.", author: "W.P. Kinsella"},
+            {quote: "The pessimist sees difficulty in every opportunity. The optimist sees opportunity in every difficulty.", author: "Winston Churchill"},
+            {quote: "Don't let yesterday take up too much of today.", author: "Will Rogers"},
+            {quote: "You learn more from failure than from success. Don't let it stop you. Failure builds character.", author: "Unknown"},
+            {quote: "If you are working on something that you really care about, you don't have to be pushed. The vision pulls you.", author: "Steve Jobs"},
+            {quote: "Experience is a hard teacher because she gives the test first, the lesson afterward.", author: "Vernon Sanders Law"},
+            {quote: "Goal setting is the secret to a compelling future.", author: "Tony Robbins"},
+            {quote: "The elevator to success is out of order. You'll have to use the stairs, one step at a time.", author: "Joe Girard"},
+            {quote: "Be a positive energy trampoline—absorb what you need and rebound more back.", author: "Dave Carolan"},
+            {quote: "The elevator to success is out of order. You'll have to use the stairs, one step at a time.", author: "Joe Girard"},
+            {quote: "You’ve got to get up every morning with determination if you’re going to go to bed with satisfaction.", author: "George Lorimer"},
+            {quote: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela"},
+            // Add other quotes here following the same format
+        ];
+
+        const quoteText = document.getElementById('quote');
+        const authorText = document.getElementById('author');
+        const newQuoteButton = document.getElementById('new-quote');
+
+        newQuoteButton.addEventListener('click', generateQuote);
+
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            quoteText.textContent = quotes[randomIndex].quote;
+            authorText.textContent = quotes[randomIndex].author;
+        }
+    </script>
+</body>
+</html>
