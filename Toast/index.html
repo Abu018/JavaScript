@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast Notification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px; /* Center the toast */
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+            transition: visibility 0s, opacity 0.5s linear;
+            opacity: 0;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .success {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        .error {
+            background-color: #f44336; /* Red */
+            color: white;
+        }
+
+        .invalid {
+            background-color: #ff9800; /* Orange */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="showToast('success', 'Operation was successful!')">Show Success</button>
+    <button onclick="showToast('error', 'An error occurred!')">Show Error</button>
+    <button onclick="showToast('invalid', 'Input is invalid!')">Show Invalid</button>
+    <div id="toast" class="toast">This is a toast notification!</div>
+
+    <script>
+        function showToast(type, message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast show ${type}`; // Set the class based on the type
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000); // Hide after 3 seconds
+        }
+    </script>
+</body>
+</html>
